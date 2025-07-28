@@ -1,0 +1,21 @@
+{
+  "name": "whatsapp_web_messages_downloader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.31.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/qrcode-terminal": "^0.12.2",
+    "typescript": "^5.8.3"
+  }
+}

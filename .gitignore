@@ -2,3 +2,4 @@ node_modules
 .wwebjs_*
 package-lock.json
 #src/index.js
+chats/*.json

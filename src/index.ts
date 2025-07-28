@@ -17,22 +17,30 @@ client.on('ready', async () => {
     console.log('Client is ready!');
 
     const chats = await client.getChats();
-    const allMessages: any[] = [];
 
-    for (const chat of chats) {
-        const messages: Message[] = await chat.fetchMessages({ limit: Infinity });
-        for (const msg of messages) {
-            allMessages.push({
-                from: msg.from,
-                to: msg.to,
-                body: msg.body,
-                timestamp: msg.timestamp
-            });
-        }
+    if (!fs.existsSync('chats')) {
+        fs.mkdirSync('chats');
     }
 
-    fs.writeFileSync('whatsapp_messages.json', JSON.stringify(allMessages, null, 2));
-    console.log('All messages have been saved to whatsapp_messages.json');
+    for (const chat of chats) {
+        const chatId = chat.id._serialized;
+        console.log(`Fetching last 100 messages for chat: ${chatId}`);
+
+        const messages: Message[] = await chat.fetchMessages({ limit: 100 });
+        
+        const chatMessages = messages.map(msg => ({
+            from: msg.from,
+            to: msg.to,
+            body: msg.body,
+            timestamp: msg.timestamp,
+            fromMe: msg.fromMe
+        }));
+
+        fs.writeFileSync(`chats/${chatId}.json`, JSON.stringify(chatMessages, null, 2));
+        console.log(`Saved ${messages.length} messages for chat ${chatId}`);
+    }
+
+    console.log('All chats have been saved.');
     await client.destroy();
 });
 
